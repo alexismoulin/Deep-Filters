@@ -47,7 +47,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>The app needs to access your camera for taking photos</string>
+	<string>Deep Filters needs to access your camera for taking photos. Please allow the access, so you can take pictures directly from the app for more convenience</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Used for saving your stylized photos on your device</string>
 	<key>NSPhotoLibraryUsageDescription</key>
