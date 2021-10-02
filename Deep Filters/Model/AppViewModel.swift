@@ -12,7 +12,7 @@ class AppViewModel: ObservableObject {
     }
 
     func deleteAll() {
-        for (index, _) in items.enumerated() {
+        for index in items.indices {
             items[index].delete()
         }
 

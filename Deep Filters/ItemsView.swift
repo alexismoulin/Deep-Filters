@@ -3,7 +3,7 @@ import AVKit
 
 struct ItemsView: View {
     @State private var showSheet = false
-    @ObservedObject var mediaItems = PickedMediaItems()
+    @ObservedObject var mediaItems = AppViewModel()
 
     var body: some View {
         NavigationView {
@@ -48,7 +48,7 @@ struct ItemsView: View {
             }))
         }
         .sheet(isPresented: $showSheet) {
-            PhotoPicker(mediaItems: mediaItems) { didSelectItem in
+            PhotoPicker(appViewModel: mediaItems) { didSelectItem in
                 // Handle didSelectItems value here...
                 showSheet = false
             }

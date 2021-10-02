@@ -4,7 +4,7 @@ import PhotosUI
 struct PhotoPicker: UIViewControllerRepresentable {
     typealias UIViewControllerType = PHPickerViewController
 
-    @ObservedObject var mediaItems: PickedMediaItems
+    @ObservedObject var appViewModel: AppViewModel
     var didFinishPicking: (_ didSelectItems: Bool) -> Void
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
@@ -69,13 +69,13 @@ struct PhotoPicker: UIViewControllerRepresentable {
                     if !isLivePhoto {
                         if let image = object as? UIImage {
                             DispatchQueue.main.async {
-                                self.photoPicker.mediaItems.append(item: PhotoPickerModel(with: image))
+                                self.photoPicker.appViewModel.append(item: PhotoPickerModel(with: image))
                             }
                         }
                     } else {
                         if let livePhoto = object as? PHLivePhoto {
                             DispatchQueue.main.async {
-                                self.photoPicker.mediaItems.append(item: PhotoPickerModel(with: livePhoto))
+                                self.photoPicker.appViewModel.append(item: PhotoPickerModel(with: livePhoto))
                             }
                         }
                     }
@@ -102,7 +102,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
                     try FileManager.default.copyItem(at: url, to: targetURL)
 
                     DispatchQueue.main.async {
-                        self.photoPicker.mediaItems.append(item: PhotoPickerModel(with: targetURL))
+                        self.photoPicker.appViewModel.append(item: PhotoPickerModel(with: targetURL))
                     }
                 } catch {
                     print(error.localizedDescription)
