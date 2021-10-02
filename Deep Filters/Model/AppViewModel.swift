@@ -5,6 +5,19 @@ class AppViewModel: ObservableObject {
     @Published var backgroundImage: UIImage?
     @Published var selectedstyle: Style = .style1
     @Published var styleApplied: Bool = false
+    @Published var items: [PhotoPickerModel] = []
+
+    func append(item: PhotoPickerModel) {
+        items.append(item)
+    }
+
+    func deleteAll() {
+        for (index, _) in items.enumerated() {
+            items[index].delete()
+        }
+
+        items.removeAll()
+    }
 
     func applyStyle() {
         switch selectedstyle {

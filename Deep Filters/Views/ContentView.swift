@@ -136,26 +136,33 @@ struct ContentView: View {
         .padding(.horizontal)
     }
 
+    @ViewBuilder
+    func createActionButtonSection() -> some View {
+        if appViewModel.backgroundImage != nil {
+            if appViewModel.styleApplied {
+                HStack(spacing: 20) {
+                    cancelButton
+                    shareButton
+                }
+            } else {
+                HStack(spacing: 20) {
+                    cancelButton
+                    applyFilterButton
+                }
+            }
+        }
+    }
+
     // MARK: - body
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
             VStack {
                 ZStack(alignment: .bottomTrailing) {
-                    pictureSection.ignoresSafeArea()
-                    if appViewModel.backgroundImage != nil {
-                        if appViewModel.styleApplied {
-                            HStack(spacing: 20) {
-                                cancelButton
-                                shareButton
-                            }.offset(x: -20, y: 30)
-                        } else {
-                            HStack(spacing: 20) {
-                                cancelButton
-                                applyFilterButton
-                            }.offset(x: -20, y: 30)
-                        }
-                    }
+                    // pictureSection.ignoresSafeArea()
+                    ItemsView()
+                        .environmentObject(appViewModel)
+                    createActionButtonSection().offset(x: -20, y: 30)
                 }
                 chooseStyleSection
             }
