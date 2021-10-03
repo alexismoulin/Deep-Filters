@@ -3,7 +3,6 @@ import VisualEffects
 
 struct ContentView: View {
 
-    @State private var showingAlert: Bool = false
     @State private var backgroundPicker: BackgroundPicker?
     @StateObject var appViewModel = AppViewModel()
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
@@ -28,6 +27,7 @@ struct ContentView: View {
         AnimatedRoundedButton(title: "Cancel", systemImage: "xmark", color: .red) {
             appViewModel.styleApplied = false
             appViewModel.backgroundImage = nil
+            appViewModel.deleteAll()
         }
     }
 
@@ -55,14 +55,17 @@ struct ContentView: View {
             }
         }
         if pickerType == .library {
-            PhotoLibrary { image in
-                appViewModel.backgroundImage = image
+            PhotoPicker(appViewModel: appViewModel) { _ in
                 backgroundPicker = nil
                 appViewModel.styleApplied = false
             }
         }
         if pickerType == .share {
-            ShareSheet(image: appViewModel.backgroundImage!)
+            if let unwrappedImage = appViewModel.backgroundImage {
+                ShareSheet(image: (unwrappedImage))
+            } else {
+                Text("No image !")
+            }
         }
     }
 
@@ -74,17 +77,15 @@ struct ContentView: View {
                 // Background
                 BackgroundEffectView(color1: .primary, color2: .secondary)
                 // Image
-                if appViewModel.backgroundImage != nil {
-                    Image(uiImage: appViewModel.backgroundImage!)
-                        .resizable()
-                        .scaledToFit()
+                if !appViewModel.items.isEmpty {
+                    ItemsView(appViewModel: appViewModel)
                 } else {
                     Text("First, select a picture")
                         .foregroundColor(.white)
                         .font(.headline)
                 }
                 // Buttons
-                if appViewModel.backgroundImage == nil {
+                if appViewModel.items.isEmpty {
                     HStack {
                         if Camera.isAvailable || testMode {
                             cameraButton.padding(horizontalSizeClass == .compact ? 20: 50)
@@ -138,7 +139,7 @@ struct ContentView: View {
 
     @ViewBuilder
     func createActionButtonSection() -> some View {
-        if appViewModel.backgroundImage != nil {
+        if !appViewModel.items.isEmpty {
             if appViewModel.styleApplied {
                 HStack(spacing: 20) {
                     cancelButton
@@ -159,9 +160,7 @@ struct ContentView: View {
         ZStack(alignment: .topTrailing) {
             VStack {
                 ZStack(alignment: .bottomTrailing) {
-                    // pictureSection.ignoresSafeArea()
-                    ItemsView()
-                        .environmentObject(appViewModel)
+                    pictureSection.ignoresSafeArea()
                     createActionButtonSection().offset(x: -20, y: 30)
                 }
                 chooseStyleSection
@@ -170,6 +169,7 @@ struct ContentView: View {
         .sheet(item: $backgroundPicker) { pickerType in
             presentSheet(pickerType: pickerType)
         }
+
     }
 
 }

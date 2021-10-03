@@ -2,12 +2,10 @@ import SwiftUI
 import AVKit
 
 struct ItemsView: View {
-    @State private var showSheet = false
-    @ObservedObject var mediaItems = AppViewModel()
+    @ObservedObject var appViewModel: AppViewModel
 
     var body: some View {
-        NavigationView {
-            List(mediaItems.items, id: \.id) { item in
+            List(appViewModel.items, id: \.id) { item in
                 ZStack(alignment: .topLeading) {
                     if item.mediaType == .photo {
                         Image(uiImage: item.photo ?? UIImage())
@@ -32,25 +30,6 @@ struct ItemsView: View {
                         .padding(4)
                         .background(Color.black.opacity(0.5))
                         .foregroundColor(.white)
-                }
-            }
-            .navigationBarItems(
-                leading: Button(action: {
-                mediaItems.deleteAll()
-            }, label: {
-                Image(systemName: "trash")
-                    .foregroundColor(.red)
-            }),
-                trailing: Button(action: {
-                showSheet = true
-            }, label: {
-                Image(systemName: "plus")
-            }))
-        }
-        .sheet(isPresented: $showSheet) {
-            PhotoPicker(appViewModel: mediaItems) { didSelectItem in
-                // Handle didSelectItems value here...
-                showSheet = false
             }
         }
     }

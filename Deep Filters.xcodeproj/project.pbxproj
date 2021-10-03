@@ -114,7 +114,6 @@
 				5E8373E7270692DB0031CDBB /* PhotoPickerModel.swift */,
 				5E8373E9270693480031CDBB /* PhotoPicker.swift */,
 				5E8373EB270693940031CDBB /* LivePhotoView.swift */,
-				5E8373ED270693C60031CDBB /* ItemsView.swift */,
 				5E4305C326EC06B400D6CD85 /* Model */,
 				5E4305BF26EC061D00D6CD85 /* Views */,
 				5E4305EF26EC098B00D6CD85 /* Misc */,
@@ -137,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				5E4305B226EC05E000D6CD85 /* ContentView.swift */,
+				5E8373ED270693C60031CDBB /* ItemsView.swift */,
 				5E4305E826EC08E900D6CD85 /* Components */,
 				5E4305E326EC084800D6CD85 /* Sheets */,
 			);
