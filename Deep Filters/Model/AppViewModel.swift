@@ -22,8 +22,10 @@ class AppViewModel: ObservableObject {
     func applyStyle() {
         switch selectedstyle {
         case .style1:
-            let optionalStyledImage1 = ModelManager.model1?.performStyleTransfer(image: backgroundImage)
+            let optionalStyledImage1 = ModelManager.model1?.performStyleTransfer(item: items.first)
             backgroundImage = optionalStyledImage1
+            items.removeAll()
+            items.append(PhotoPickerModel(with: backgroundImage!))
             styleApplied = true
         case .style2:
             let optionalStyledImage2 = ModelManager.model2?.performStyleTransfer(image: backgroundImage)
