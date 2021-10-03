@@ -26,7 +26,7 @@ struct ContentView: View {
     var cancelButton: some View {
         AnimatedRoundedButton(title: "Cancel", systemImage: "xmark", color: .red) {
             appViewModel.styleApplied = false
-            appViewModel.backgroundImage = nil
+            appViewModel.items.removeAll()
             appViewModel.deleteAll()
         }
     }
@@ -49,7 +49,7 @@ struct ContentView: View {
     func presentSheet(pickerType: BackgroundPicker) -> some View {
         if pickerType == .camera {
             Camera { image in
-                appViewModel.backgroundImage = image
+                appViewModel.items.append(PhotoPickerModel(with: image ?? .nothing))
                 backgroundPicker = nil
                 appViewModel.styleApplied = false
             }
@@ -61,7 +61,7 @@ struct ContentView: View {
             }
         }
         if pickerType == .share {
-            if let unwrappedImage = appViewModel.backgroundImage {
+            if let unwrappedImage = appViewModel.items.first?.photo {
                 ShareSheet(image: (unwrappedImage))
             } else {
                 Text("No image !")

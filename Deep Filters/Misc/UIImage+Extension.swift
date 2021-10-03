@@ -4,6 +4,8 @@ import VideoToolbox
 
 extension UIImage {
 
+    static var nothing = UIImage(named: "nothing")!
+
     static func imageFromCVPixelBuffer(pixelBuffer: CVPixelBuffer) -> UIImage? {
         var cgImage: CGImage?
         VTCreateCGImageFromCVPixelBuffer(pixelBuffer, options: nil, imageOut: &cgImage)

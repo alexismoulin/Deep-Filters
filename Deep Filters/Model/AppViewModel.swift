@@ -2,7 +2,6 @@ import SwiftUI
 import CoreML
 
 class AppViewModel: ObservableObject {
-    @Published var backgroundImage: UIImage?
     @Published var selectedstyle: Style = .style1
     @Published var styleApplied: Bool = false
     @Published var items: [PhotoPickerModel] = []
@@ -19,50 +18,44 @@ class AppViewModel: ObservableObject {
         items.removeAll()
     }
 
+    private func replaceWithStyle(optionalStyledImage: UIImage?) {
+        items.removeAll()
+        items.append(PhotoPickerModel(with: (optionalStyledImage ?? UIImage(named: "nothing")!)))
+        styleApplied = true
+    }
+
     func applyStyle() {
         switch selectedstyle {
         case .style1:
             let optionalStyledImage1 = ModelManager.model1?.performStyleTransfer(item: items.first)
-            backgroundImage = optionalStyledImage1
-            items.removeAll()
-            items.append(PhotoPickerModel(with: backgroundImage!))
-            styleApplied = true
+            replaceWithStyle(optionalStyledImage: optionalStyledImage1)
         case .style2:
-            let optionalStyledImage2 = ModelManager.model2?.performStyleTransfer(image: backgroundImage)
-            backgroundImage = optionalStyledImage2
-            styleApplied = true
+            let optionalStyledImage2 = ModelManager.model2?.performStyleTransfer(item: items.first)
+            replaceWithStyle(optionalStyledImage: optionalStyledImage2)
         case .style3:
-            let optionalStyledImage3 = ModelManager.model3?.performStyleTransfer(image: backgroundImage)
-            backgroundImage = optionalStyledImage3
-            styleApplied = true
+            let optionalStyledImage3 = ModelManager.model3?.performStyleTransfer(item: items.first)
+            replaceWithStyle(optionalStyledImage: optionalStyledImage3)
         case .style4:
-            let optionalStyledImage4 = ModelManager.model4?.performStyleTransfer(image: backgroundImage)
-            backgroundImage = optionalStyledImage4
-            styleApplied = true
+            let optionalStyledImage4 = ModelManager.model4?.performStyleTransfer(item: items.first)
+            replaceWithStyle(optionalStyledImage: optionalStyledImage4)
         case .style5:
-            let optionalStyledImage5 = ModelManager.model5?.performStyleTransfer(image: backgroundImage)
-            backgroundImage = optionalStyledImage5
-            styleApplied = true
+            let optionalStyledImage5 = ModelManager.model5?.performStyleTransfer(item: items.first)
+            replaceWithStyle(optionalStyledImage: optionalStyledImage5)
         case .style6:
-            let optionalStyledImage6 = ModelManager.model6?.performStyleTransfer(image: backgroundImage)
-            backgroundImage = optionalStyledImage6
-            styleApplied = true
+            let optionalStyledImage6 = ModelManager.model6?.performStyleTransfer(item: items.first)
+            replaceWithStyle(optionalStyledImage: optionalStyledImage6)
         case .style7:
-            let optionalStyledImage7 = ModelManager.model7?.performStyleTransfer(image: backgroundImage)
-            backgroundImage = optionalStyledImage7
-            styleApplied = true
+            let optionalStyledImage7 = ModelManager.model7?.performStyleTransfer(item: items.first)
+            replaceWithStyle(optionalStyledImage: optionalStyledImage7)
         case .style8:
-            let optionalStyledImage8 = ModelManager.model8?.performStyleTransfer(image: backgroundImage)
-            backgroundImage = optionalStyledImage8
-            styleApplied = true
+            let optionalStyledImage8 = ModelManager.model8?.performStyleTransfer(item: items.first)
+            replaceWithStyle(optionalStyledImage: optionalStyledImage8)
         case .style9:
-            let optionalStyledImage9 = ModelManager.model9?.performStyleTransfer(image: backgroundImage)
-            backgroundImage = optionalStyledImage9
-            styleApplied = true
+            let optionalStyledImage9 = ModelManager.model9?.performStyleTransfer(item: items.first)
+            replaceWithStyle(optionalStyledImage: optionalStyledImage9)
         case .style10:
-            let optionalStyledImage10 = ModelManager.model10?.performStyleTransfer(image: backgroundImage)
-            backgroundImage = optionalStyledImage10
-            styleApplied = true
+            let optionalStyledImage10 = ModelManager.model10?.performStyleTransfer(item: items.first)
+            replaceWithStyle(optionalStyledImage: optionalStyledImage10)
         }
     }
 
@@ -71,7 +64,7 @@ class AppViewModel: ObservableObject {
         guard let source = UIApplication.shared.windows.last?.rootViewController else {
             return false
         }
-        let viewController = UIActivityViewController(activityItems: [backgroundImage!], applicationActivities: nil)
+        let viewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
         viewController.excludedActivityTypes = excludedActivityTypes
         viewController.popoverPresentationController?.sourceView = source.view
         source.present(viewController, animated: true)
