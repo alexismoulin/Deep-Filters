@@ -24,39 +24,9 @@ class AppViewModel: ObservableObject {
         styleApplied = true
     }
 
-    func applyStyle() {
-        switch selectedstyle {
-        case .style1:
-            let optionalStyledImage1 = ModelManager.model1?.performStyleTransfer(item: items.first)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage1)
-        case .style2:
-            let optionalStyledImage2 = ModelManager.model2?.performStyleTransfer(item: items.first)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage2)
-        case .style3:
-            let optionalStyledImage3 = ModelManager.model3?.performStyleTransfer(item: items.first)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage3)
-        case .style4:
-            let optionalStyledImage4 = ModelManager.model4?.performStyleTransfer(item: items.first)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage4)
-        case .style5:
-            let optionalStyledImage5 = ModelManager.model5?.performStyleTransfer(item: items.first)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage5)
-        case .style6:
-            let optionalStyledImage6 = ModelManager.model6?.performStyleTransfer(item: items.first)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage6)
-        case .style7:
-            let optionalStyledImage7 = ModelManager.model7?.performStyleTransfer(item: items.first)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage7)
-        case .style8:
-            let optionalStyledImage8 = ModelManager.model8?.performStyleTransfer(item: items.first)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage8)
-        case .style9:
-            let optionalStyledImage9 = ModelManager.model9?.performStyleTransfer(item: items.first)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage9)
-        case .style10:
-            let optionalStyledImage10 = ModelManager.model10?.performStyleTransfer(item: items.first)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage10)
-        }
+    func applyStyle(model: StyleTransfer) {
+        let optionalStyledImage = model.performStyleTransfer(item: items.first)
+        replaceWithStyle(optionalStyledImage: optionalStyledImage)
     }
 
     @discardableResult

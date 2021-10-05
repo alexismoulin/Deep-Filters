@@ -13,7 +13,7 @@ struct ContentView: View {
 
     var applyFilterButton: some View {
         AnimatedRoundedButton(title: "Apply", systemImage: "play", color: .green) {
-            appViewModel.applyStyle()
+            appViewModel.applyStyle(model: appViewModel.selectedstyle.associateModel())
         }
     }
 

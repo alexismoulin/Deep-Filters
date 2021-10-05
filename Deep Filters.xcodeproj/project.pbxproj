@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E08531F270BD25D00DFAD5D /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E08531E270BD25D00DFAD5D /* Movie.swift */; };
 		5E4305B126EC05E000D6CD85 /* Deep_FiltersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305B026EC05E000D6CD85 /* Deep_FiltersApp.swift */; };
 		5E4305B326EC05E000D6CD85 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305B226EC05E000D6CD85 /* ContentView.swift */; };
 		5E4305B526EC05E100D6CD85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E4305B426EC05E100D6CD85 /* Assets.xcassets */; };
@@ -23,7 +24,6 @@
 		5E4305D626EC075A00D6CD85 /* Style9.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305D526EC075A00D6CD85 /* Style9.mlmodel */; };
 		5E4305D826EC076200D6CD85 /* Style10.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305D726EC076200D6CD85 /* Style10.mlmodel */; };
 		5E4305DA26EC077C00D6CD85 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305D926EC077C00D6CD85 /* AppViewModel.swift */; };
-		5E4305DC26EC07BC00D6CD85 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305DB26EC07BC00D6CD85 /* ModelManager.swift */; };
 		5E4305DE26EC07E200D6CD85 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305DD26EC07E200D6CD85 /* Style.swift */; };
 		5E4305E026EC080300D6CD85 /* BackgroundPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305DF26EC080300D6CD85 /* BackgroundPicker.swift */; };
 		5E4305E226EC083900D6CD85 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305E126EC083900D6CD85 /* ShareSheet.swift */; };
@@ -43,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E08531E270BD25D00DFAD5D /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		5E4305AD26EC05E000D6CD85 /* Deep Filters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Deep Filters.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E4305B026EC05E000D6CD85 /* Deep_FiltersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deep_FiltersApp.swift; sourceTree = "<group>"; };
 		5E4305B226EC05E000D6CD85 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,7 +61,6 @@
 		5E4305D526EC075A00D6CD85 /* Style9.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Style9.mlmodel; sourceTree = "<group>"; };
 		5E4305D726EC076200D6CD85 /* Style10.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Style10.mlmodel; sourceTree = "<group>"; };
 		5E4305D926EC077C00D6CD85 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
-		5E4305DB26EC07BC00D6CD85 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		5E4305DD26EC07E200D6CD85 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		5E4305DF26EC080300D6CD85 /* BackgroundPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundPicker.swift; sourceTree = "<group>"; };
 		5E4305E126EC083900D6CD85 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
@@ -111,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				5E4305B026EC05E000D6CD85 /* Deep_FiltersApp.swift */,
-				5E8373E7270692DB0031CDBB /* PhotoPickerModel.swift */,
 				5E8373E9270693480031CDBB /* PhotoPicker.swift */,
 				5E8373EB270693940031CDBB /* LivePhotoView.swift */,
 				5E4305C326EC06B400D6CD85 /* Model */,
@@ -148,9 +147,10 @@
 			children = (
 				5E4305C426EC06BC00D6CD85 /* ML Models */,
 				5E4305D926EC077C00D6CD85 /* AppViewModel.swift */,
-				5E4305DB26EC07BC00D6CD85 /* ModelManager.swift */,
 				5E4305DD26EC07E200D6CD85 /* Style.swift */,
 				5E4305DF26EC080300D6CD85 /* BackgroundPicker.swift */,
+				5E8373E7270692DB0031CDBB /* PhotoPickerModel.swift */,
+				5E08531E270BD25D00DFAD5D /* Movie.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -308,7 +308,6 @@
 				5E4305EC26EC093B00D6CD85 /* AnimatedActionButton.swift in Sources */,
 				5E8373EE270693C60031CDBB /* ItemsView.swift in Sources */,
 				5E4305F726EC0A3400D6CD85 /* GradientButtonStyle.swift in Sources */,
-				5E4305DC26EC07BC00D6CD85 /* ModelManager.swift in Sources */,
 				5E4305DE26EC07E200D6CD85 /* Style.swift in Sources */,
 				5E4305DA26EC077C00D6CD85 /* AppViewModel.swift in Sources */,
 				5E4305CA26EC071700D6CD85 /* Style3.mlmodel in Sources */,
@@ -318,6 +317,7 @@
 				5E4305EE26EC095F00D6CD85 /* AnimatedRoundedButton.swift in Sources */,
 				5E4305D426EC074F00D6CD85 /* Style8.mlmodel in Sources */,
 				5E8373E8270692DB0031CDBB /* PhotoPickerModel.swift in Sources */,
+				5E08531F270BD25D00DFAD5D /* Movie.swift in Sources */,
 				5E4305CE26EC072B00D6CD85 /* Style5.mlmodel in Sources */,
 				5E4305F126EC09B400D6CD85 /* Array+Extension.swift in Sources */,
 				5E4305E726EC08C500D6CD85 /* PhotoLibrary.swift in Sources */,

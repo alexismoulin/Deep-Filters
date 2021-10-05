@@ -63,6 +63,11 @@ extension Style1: StyleTransfer {
             return nil
         }
     }
+
+    func testStyleTransfer(url: URL) -> UIImage? {
+        let firstImage = extractFirstFrame(videoURL: url)
+        return performStyleTransfer(image: firstImage)
+    }
 }
 
 extension Style2: StyleTransfer {
