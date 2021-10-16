@@ -1,7 +1,7 @@
 import SwiftUI
 import PhotosUI
 
-struct PhotoPicker: UIViewControllerRepresentable {
+struct MediaPicker: UIViewControllerRepresentable {
     typealias UIViewControllerType = PHPickerViewController
 
     @ObservedObject var appViewModel: AppViewModel
@@ -9,8 +9,8 @@ struct PhotoPicker: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration()
-        config.filter = .any(of: [.images, .videos, .livePhotos])
-        config.selectionLimit = 0
+        config.filter = .any(of: [.images, .videos])
+        config.selectionLimit = 1
         config.preferredAssetRepresentationMode = .current
 
         let controller = PHPickerViewController(configuration: config)
@@ -27,9 +27,9 @@ struct PhotoPicker: UIViewControllerRepresentable {
     }
 
     class Coordinator: PHPickerViewControllerDelegate {
-        var photoPicker: PhotoPicker
+        var photoPicker: MediaPicker
 
-        init(with photoPicker: PhotoPicker) {
+        init(with photoPicker: MediaPicker) {
             self.photoPicker = photoPicker
         }
 
@@ -69,13 +69,13 @@ struct PhotoPicker: UIViewControllerRepresentable {
                     if !isLivePhoto {
                         if let image = object as? UIImage {
                             DispatchQueue.main.async {
-                                self.photoPicker.appViewModel.append(item: PhotoPickerModel(with: image))
+                                self.photoPicker.appViewModel.append(item: MediaPickerModel(with: image))
                             }
                         }
                     } else {
                         if let livePhoto = object as? PHLivePhoto {
                             DispatchQueue.main.async {
-                                self.photoPicker.appViewModel.append(item: PhotoPickerModel(with: livePhoto))
+                                self.photoPicker.appViewModel.append(item: MediaPickerModel(with: livePhoto))
                             }
                         }
                     }
@@ -102,7 +102,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
                     try FileManager.default.copyItem(at: url, to: targetURL)
 
                     DispatchQueue.main.async {
-                        self.photoPicker.appViewModel.append(item: PhotoPickerModel(with: targetURL))
+                        self.photoPicker.appViewModel.append(item: MediaPickerModel(with: targetURL))
                     }
                 } catch {
                     print(error.localizedDescription)

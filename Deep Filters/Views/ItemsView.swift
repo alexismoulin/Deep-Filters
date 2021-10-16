@@ -4,7 +4,7 @@ import AVKit
 struct ItemsView: View {
     @ObservedObject var appViewModel: AppViewModel
 
-    var item: PhotoPickerModel? {
+    var item: MediaPickerModel? {
         appViewModel.items.first
     }
 

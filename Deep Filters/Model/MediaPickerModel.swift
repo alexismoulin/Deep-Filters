@@ -1,15 +1,15 @@
 import SwiftUI
 import Photos
 
-struct PhotoPickerModel {
+struct MediaPickerModel {
     enum MediaType {
         case photo, video, livePhoto
     }
-
+    // swiftlint:disable:next identifier_name
     var id: String
     var photo: UIImage?
     var url: URL?
-    var livePhoto: PHLivePhoto?
+    var livePhoto: PHLivePhoto? // not used yet in this version
     var mediaType: MediaType = .photo
 
     init(with photo: UIImage) {

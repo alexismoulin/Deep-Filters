@@ -70,4 +70,8 @@ extension UIImage {
         return pixelBuffer
     }
 
+    func isIncorrect() -> Bool {
+        self.size.width.isZero || self.size.height.isZero || self.size.width.isNaN || self.size.height.isNaN
+    }
+
 }

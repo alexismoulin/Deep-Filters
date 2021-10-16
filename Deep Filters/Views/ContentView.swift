@@ -49,13 +49,13 @@ struct ContentView: View {
     func presentSheet(pickerType: BackgroundPicker) -> some View {
         if pickerType == .camera {
             Camera { image in
-                appViewModel.items.append(PhotoPickerModel(with: image ?? .nothing))
+                appViewModel.items.append(MediaPickerModel(with: image ?? .nothing))
                 backgroundPicker = nil
                 appViewModel.styleApplied = false
             }
         }
         if pickerType == .library {
-            PhotoPicker(appViewModel: appViewModel) { _ in
+            MediaPicker(appViewModel: appViewModel) { _ in
                 backgroundPicker = nil
                 appViewModel.styleApplied = false
             }
