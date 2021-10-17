@@ -13,7 +13,7 @@ struct ContentView: View {
 
     var applyFilterButton: some View {
         AnimatedRoundedButton(title: "Apply", systemImage: "play", color: .green) {
-            appViewModel.applyStyle(model: appViewModel.selectedstyle.associateModel())
+            appViewModel.applyStyle(model: StyleModel(modelStyle: appViewModel.selectedstyle.rawValue))
         }
     }
 
@@ -108,11 +108,11 @@ struct ContentView: View {
                 HStack {
                     ForEach(Style.allCases, id: \.self) { style in
                         ZStack(alignment: .bottom) {
-                            Image(style.rawValue)
+                            Image(style.associatedImageName())
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 100, height: 100)
-                            Text(style.rawValue)
+                            Text(style.associatedImageName())
                                 .font(.subheadline)
                                 .fontWeight(style == appViewModel.selectedstyle ? .bold : .none)
                                 .padding(2)

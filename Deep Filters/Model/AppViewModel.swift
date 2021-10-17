@@ -24,13 +24,14 @@ class AppViewModel: ObservableObject {
         styleApplied = true
     }
 
-    func applyStyle(model: StyleTransfer) {
+    func applyStyle(model: StyleModel) {
         if let movieItem = items.first?.url {
-            let optionalStyledImage = model.performStyleTransfer(videoURL: movieItem)
-            replaceWithStyle(optionalStyledImage: optionalStyledImage)
+            model.renderVideo(videoURL: movieItem, modelStyle: selectedstyle.rawValue) { url in
+                self.items.insert(MediaPickerModel(with: url), at: 0)
+            }
         }
         if let imageItem = items.first?.photo {
-            let optionalStyledImage = model.performStyleTransfer(image: imageItem)
+            let optionalStyledImage = model.performImageTransfer(image: imageItem, modelStyle: selectedstyle.rawValue)
             replaceWithStyle(optionalStyledImage: optionalStyledImage)
         }
     }

@@ -2,6 +2,16 @@ import AVFoundation
 import CoreMedia
 import UIKit
 
+func convertToPixelBuffer(image: UIImage?) -> CVPixelBuffer? {
+    guard let img = image,
+          let resizedImage = img.resizeTo(size: CGSize(width: 512, height: 512)),
+          let buffer = resizedImage.toBuffer()
+    else {
+        return nil
+    }
+    return buffer
+}
+
 func extractFirstFrame(videoURL: URL) -> UIImage? {
     print(videoURL)
     let asset = AVAsset(url: videoURL)
