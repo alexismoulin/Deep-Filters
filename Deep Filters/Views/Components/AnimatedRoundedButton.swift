@@ -4,12 +4,12 @@ struct AnimatedRoundedButton: View {
     var title: String
     var systemImage: String
     var color: Color
-    let action: () -> Void
+    let action: () async -> Void
 
     var body: some View {
         Button {
-            withAnimation(.easeInOut) {
-                action()
+            Task {
+                await action()
             }
         } label: {
             ZStack {

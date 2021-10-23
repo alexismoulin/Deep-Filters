@@ -2,7 +2,7 @@ import SwiftUI
 import CoreML
 
 class AppViewModel: ObservableObject {
-    @Published var selectedstyle: Style = .style1
+    @Published var selectedstyle: StyleEnum = .style1
     @Published var styleApplied: Bool = false
     @Published var items: [MediaPickerModel] = []
 
@@ -24,11 +24,11 @@ class AppViewModel: ObservableObject {
         styleApplied = true
     }
 
-    func applyStyle(model: StyleModel) {
+    func applyStyle(model: StyleModel) async {
         if let movieItem = items.first?.url {
-            model.renderVideo(videoURL: movieItem, modelStyle: selectedstyle.rawValue) { url in
-                self.items.insert(MediaPickerModel(with: url), at: 0)
-            }
+            let newURL = await model.renderVideo(videoURL: movieItem, modelStyle: selectedstyle.rawValue)
+            items.removeAll()
+            items.append(MediaPickerModel(with: newURL))
         }
         if let imageItem = items.first?.photo {
             let optionalStyledImage = model.performImageTransfer(image: imageItem, modelStyle: selectedstyle.rawValue)
@@ -41,6 +41,7 @@ class AppViewModel: ObservableObject {
         guard let source = UIApplication.shared.windows.last?.rootViewController else {
             return false
         }
+
         let viewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
         viewController.excludedActivityTypes = excludedActivityTypes
         viewController.popoverPresentationController?.sourceView = source.view

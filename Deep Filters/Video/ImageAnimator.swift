@@ -41,7 +41,7 @@ class ImageAnimator {
         images = imageArray
     }
 
-    func render(completion: (() -> Void)?) {
+    func render() async -> URL {
 
         // The VideoWriter will fail if a file exists at the URL, so clear it out first.
         ImageAnimator.removeFileAtURL(fileURL: settings.outputURL)
@@ -49,9 +49,8 @@ class ImageAnimator {
         videoWriter.start()
         videoWriter.render(appendPixelBuffers: appendPixelBuffers) {
             ImageAnimator.saveToLibrary(videoURL: self.settings.outputURL)
-            completion?()
         }
-
+        return settings.outputURL
     }
 
     // This is the callback function for VideoWriter.render()

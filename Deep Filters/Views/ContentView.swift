@@ -13,7 +13,7 @@ struct ContentView: View {
 
     var applyFilterButton: some View {
         AnimatedRoundedButton(title: "Apply", systemImage: "play", color: .green) {
-            appViewModel.applyStyle(model: StyleModel(modelStyle: appViewModel.selectedstyle.rawValue))
+            await appViewModel.applyStyle(model: StyleModel(modelStyle: appViewModel.selectedstyle.rawValue))
         }
     }
 
@@ -75,7 +75,7 @@ struct ContentView: View {
         GeometryReader { geo in
             ZStack {
                 // Background
-                BackgroundEffectView(color1: .primary, color2: .secondary)
+                BackgroundEffect(color1: .primary, color2: .secondary)
                 // Image
                 if !appViewModel.items.isEmpty {
                     ItemsView(appViewModel: appViewModel)
@@ -106,13 +106,13 @@ struct ContentView: View {
                 .font(.headline)
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(Style.allCases, id: \.self) { style in
+                    ForEach(StyleEnum.allCases, id: \.self) { style in
                         ZStack(alignment: .bottom) {
-                            Image(style.associatedImageName())
+                            Image(StyleEnum.getAssociatedImageName(style: style))
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 100, height: 100)
-                            Text(style.associatedImageName())
+                            Text(StyleEnum.getAssociatedImageName(style: style))
                                 .font(.subheadline)
                                 .fontWeight(style == appViewModel.selectedstyle ? .bold : .none)
                                 .padding(2)
