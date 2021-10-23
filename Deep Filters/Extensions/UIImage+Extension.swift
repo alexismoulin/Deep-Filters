@@ -74,4 +74,13 @@ extension UIImage {
         self.size.width.isZero || self.size.height.isZero || self.size.width.isNaN || self.size.height.isNaN
     }
 
+    func convertToPixelBuffer() -> CVPixelBuffer? {
+        guard let resizedImage = self.resizeTo(size: CGSize(width: MatrixSize.width, height: MatrixSize.height)),
+              let buffer = resizedImage.toBuffer()
+        else {
+            return nil
+        }
+        return buffer
+    }
+
 }

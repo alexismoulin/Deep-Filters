@@ -1,5 +1,7 @@
 import SwiftUI
 import CoreML
+import Photos
+import AVKit
 
 class AppViewModel: ObservableObject {
     @Published var selectedstyle: StyleEnum = .style1
@@ -36,6 +38,7 @@ class AppViewModel: ObservableObject {
         }
     }
 
+    /*
     @discardableResult
     func share(excludedActivityTypes: [UIActivity.ActivityType]? = nil) -> Bool {
         guard let source = UIApplication.shared.windows.last?.rootViewController else {
@@ -48,4 +51,5 @@ class AppViewModel: ObservableObject {
         source.present(viewController, animated: true)
         return true
     }
+     */
 }

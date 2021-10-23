@@ -1,6 +1,7 @@
 import CoreML
 import AVFoundation
 import UIKit
+import Photos
 
 // extension for images
 extension StyleModel {
@@ -8,7 +9,7 @@ extension StyleModel {
     func performImageTransfer(image: UIImage?, modelStyle: String) -> UIImage? {
 
         guard let originalSize = image?.size else { return nil }
-        guard let buffer = convertToPixelBuffer(image: image) else { return nil }
+        guard let buffer = image?.convertToPixelBuffer() else { return nil }
         let model = StyleModel(modelStyle: modelStyle)
 
         let output = try? model.prediction(image: buffer)
@@ -19,6 +20,30 @@ extension StyleModel {
             return nil
         }
     }
+}
+
+// extension for live photos
+extension StyleModel {
+
+    func processLivePhoto(input: PHContentEditingInput, modelStyle: String) {
+        guard let context = PHLivePhotoEditingContext(livePhotoEditingInput: input) else {
+            fatalError("not a Live Photo editing input")
+        }
+        context.frameProcessor = { frame, _ in
+            let image = UIImage(ciImage: frame.image)
+            let processedImage = self.performImageTransfer(image: image, modelStyle: modelStyle)
+            return CIImage(image: processedImage ?? .nothing)
+        }
+        let output = PHContentEditingOutput(contentEditingInput: input)
+        context.saveLivePhoto(to: output) { success, error in
+            if success {
+                // use output with PHAssetChangeRequest or PHContentEditingController
+            } else {
+                print("can't process live photo: \(error!)")
+            }
+        }
+    }
+
 }
 
 // extension for videos
