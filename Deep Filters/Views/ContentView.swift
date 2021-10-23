@@ -101,6 +101,9 @@ struct ContentView: View {
         VStack(alignment: .leading) {
             Text("Choose a style")
                 .font(.headline)
+            Divider()
+            BannerAd()
+            Divider()
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(StyleEnum.allCases, id: \.self) { style in

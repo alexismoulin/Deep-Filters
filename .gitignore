@@ -1,1 +1,4 @@
 Deep Filters/Model/ML Models/*
+Deep Filters/Info.plist
+Secret.swift
+*.xcuserstate
