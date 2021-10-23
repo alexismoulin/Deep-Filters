@@ -1,5 +1,4 @@
 import SwiftUI
-import VisualEffects
 
 struct ContentView: View {
 
@@ -26,8 +25,7 @@ struct ContentView: View {
     var cancelButton: some View {
         AnimatedRoundedButton(title: "Cancel", systemImage: "xmark", color: .red) {
             appViewModel.styleApplied = false
-            appViewModel.items.removeAll()
-            appViewModel.deleteAll()
+            appViewModel.backgroundImage = nil
         }
     }
 
@@ -49,23 +47,20 @@ struct ContentView: View {
     func presentSheet(pickerType: BackgroundPicker) -> some View {
         if pickerType == .camera {
             Camera { image in
-                appViewModel.items.append(MediaPickerModel(with: image ?? .nothing))
+                appViewModel.backgroundImage = image
                 backgroundPicker = nil
                 appViewModel.styleApplied = false
             }
         }
         if pickerType == .library {
-            MediaPicker(appViewModel: appViewModel) { _ in
+            PhotoLibrary { image in
+                appViewModel.backgroundImage = image
                 backgroundPicker = nil
                 appViewModel.styleApplied = false
             }
         }
         if pickerType == .share {
-            if let unwrappedImage = appViewModel.items.first?.photo {
-                ShareSheet(image: (unwrappedImage))
-            } else {
-                Text("No image !")
-            }
+            ShareSheet(image: appViewModel.backgroundImage!)
         }
     }
 
@@ -77,15 +72,17 @@ struct ContentView: View {
                 // Background
                 BackgroundEffect(color1: .primary, color2: .secondary)
                 // Image
-                if !appViewModel.items.isEmpty {
-                    ItemsView(appViewModel: appViewModel)
+                if appViewModel.backgroundImage != nil {
+                    Image(uiImage: appViewModel.backgroundImage!)
+                        .resizable()
+                        .scaledToFit()
                 } else {
                     Text("First, select a picture")
                         .foregroundColor(.white)
                         .font(.headline)
                 }
                 // Buttons
-                if appViewModel.items.isEmpty {
+                if appViewModel.backgroundImage == nil {
                     HStack {
                         if Camera.isAvailable || testMode {
                             cameraButton.padding(horizontalSizeClass == .compact ? 20: 50)
@@ -139,7 +136,7 @@ struct ContentView: View {
 
     @ViewBuilder
     func createActionButtonSection() -> some View {
-        if !appViewModel.items.isEmpty {
+        if appViewModel.backgroundImage != nil {
             if appViewModel.styleApplied {
                 HStack(spacing: 20) {
                     cancelButton
