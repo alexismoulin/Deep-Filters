@@ -101,9 +101,6 @@ struct ContentView: View {
         VStack(alignment: .leading) {
             Text("Choose a style")
                 .font(.headline)
-            Divider()
-            BannerAd()
-            Divider()
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(StyleEnum.allCases, id: \.self) { style in
@@ -164,6 +161,7 @@ struct ContentView: View {
                     createActionButtonSection().offset(x: -20, y: 30)
                 }
                 chooseStyleSection
+                BannerAd()
             }
         }
         .sheet(item: $backgroundPicker) { pickerType in
