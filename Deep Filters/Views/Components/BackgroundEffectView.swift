@@ -1,5 +1,4 @@
 import SwiftUI
-import VisualEffects
 
 struct BackgroundEffect: View {
     let color1: Color

@@ -13,6 +13,7 @@ struct ContentView: View {
     var applyFilterButton: some View {
         AnimatedRoundedButton(title: "Apply", systemImage: "play", color: .green) {
             await appViewModel.applyStyle(model: StyleModel(modelStyle: appViewModel.selectedstyle.rawValue))
+            appViewModel.show = .styled
         }
     }
 
@@ -24,8 +25,13 @@ struct ContentView: View {
 
     var cancelButton: some View {
         AnimatedRoundedButton(title: "Cancel", systemImage: "xmark", color: .red) {
-            appViewModel.styleApplied = false
-            appViewModel.backgroundImage = nil
+            if appViewModel.show == .styled {
+                appViewModel.show = .regular
+                appViewModel.styledBackgroundImage = nil
+            } else if appViewModel.show == .regular {
+                appViewModel.show = .noImage
+                appViewModel.backgroundImage = nil
+            }
         }
     }
 
@@ -49,18 +55,18 @@ struct ContentView: View {
             Camera { image in
                 appViewModel.backgroundImage = image
                 backgroundPicker = nil
-                appViewModel.styleApplied = false
+                appViewModel.show = .regular
             }
         }
         if pickerType == .library {
             PhotoLibrary { image in
                 appViewModel.backgroundImage = image
                 backgroundPicker = nil
-                appViewModel.styleApplied = false
+                appViewModel.show = .regular
             }
         }
         if pickerType == .share {
-            ShareSheet(image: appViewModel.backgroundImage!)
+            ShareSheet(image: appViewModel.styledBackgroundImage!)
         }
     }
 
@@ -72,17 +78,21 @@ struct ContentView: View {
                 // Background
                 BackgroundEffect(color1: .primary, color2: .secondary)
                 // Image
-                if appViewModel.backgroundImage != nil {
-                    Image(uiImage: appViewModel.backgroundImage!)
-                        .resizable()
-                        .scaledToFit()
-                } else {
+                if appViewModel.show == .noImage {
                     Text("First, select a picture")
                         .foregroundColor(.white)
                         .font(.headline)
+                } else if appViewModel.show == .regular {
+                    Image(uiImage: appViewModel.backgroundImage!)
+                        .resizable()
+                        .scaledToFit()
+                } else if appViewModel.show == .styled {
+                    Image(uiImage: appViewModel.styledBackgroundImage!)
+                        .resizable()
+                        .scaledToFit()
                 }
                 // Buttons
-                if appViewModel.backgroundImage == nil {
+                if appViewModel.show == .noImage {
                     HStack {
                         if Camera.isAvailable || testMode {
                             cameraButton.padding(horizontalSizeClass == .compact ? 20: 50)
@@ -137,7 +147,7 @@ struct ContentView: View {
     @ViewBuilder
     func createActionButtonSection() -> some View {
         if appViewModel.backgroundImage != nil {
-            if appViewModel.styleApplied {
+            if appViewModel.show == .styled {
                 HStack(spacing: 20) {
                     cancelButton
                     shareButton
@@ -161,7 +171,6 @@ struct ContentView: View {
                     createActionButtonSection().offset(x: -20, y: 30)
                 }
                 chooseStyleSection
-                BannerAd()
             }
         }
         .sheet(item: $backgroundPicker) { pickerType in

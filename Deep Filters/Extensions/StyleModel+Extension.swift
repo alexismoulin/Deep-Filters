@@ -6,7 +6,7 @@ import Photos
 // extension for images
 extension StyleModel {
 
-    func performImageTransfer(image: UIImage?, modelStyle: String) -> UIImage? {
+    func performImageTransfer(image: UIImage?, modelStyle: String) async -> UIImage? {
 
         guard let originalSize = image?.size else { return nil }
         guard let buffer = image?.convertToPixelBuffer() else { return nil }
