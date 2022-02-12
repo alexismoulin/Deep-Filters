@@ -77,6 +77,11 @@ struct ContentView: View {
             ZStack {
                 // Background
                 BackgroundEffect(color1: .primary, color2: .secondary)
+                Text(StyleEnum.getAssociatedImageName(style: appViewModel.selectedstyle))
+                    .font(.headline.weight(.heavy))
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    .padding(.top, 44)
                 // Image
                 if appViewModel.show == .noImage {
                     Text("First, select a picture")
@@ -107,41 +112,47 @@ struct ContentView: View {
         }
     }
 
+    func styleCard(style: StyleEnum) -> some View {
+        ZStack(alignment: .bottom) {
+            Image(StyleEnum.getAssociatedImageName(style: style))
+                .resizable()
+                .scaledToFit()
+                .frame(width: 100, height: 100)
+            Text(StyleEnum.getAssociatedImageName(style: style))
+                .font(.subheadline)
+                .fontWeight(style == appViewModel.selectedstyle ? .bold : .none)
+                .padding(2)
+                .frame(maxWidth: .infinity)
+                .background(Color.black.opacity(0.6))
+                .foregroundColor(.white)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .onTapGesture {
+            withAnimation {
+                appViewModel.selectedstyle = style
+            }
+        }
+        .shadow(radius: style == appViewModel.selectedstyle ? 3 : 0)
+        .padding(5)
+        .scaleEffect(style == appViewModel.selectedstyle ? 1.1 : 1)
+        .padding(.bottom, 5)
+    }
+
     var chooseStyleSection: some View {
         VStack(alignment: .leading) {
-            Text("Choose a style")
+            Text("Choose a style: ")
                 .font(.headline)
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(StyleEnum.allCases, id: \.self) { style in
-                        ZStack(alignment: .bottom) {
-                            Image(StyleEnum.getAssociatedImageName(style: style))
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                            Text(StyleEnum.getAssociatedImageName(style: style))
-                                .font(.subheadline)
-                                .fontWeight(style == appViewModel.selectedstyle ? .bold : .none)
-                                .padding(2)
-                                .frame(maxWidth: .infinity)
-                                .background(Color.black.opacity(0.6))
-                                .foregroundColor(.white)
-                        }
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .onTapGesture {
-                            withAnimation {
-                                appViewModel.selectedstyle = style
-                            }
-                        }
-                        .shadow(radius: style == appViewModel.selectedstyle ? 3 : 0)
-                        .padding(5)
-                        .scaleEffect(style == appViewModel.selectedstyle ? 1.1 : 1)
-                        .padding(.bottom, 5)
+                        styleCard(style: style)
                     }
                 }
             }
         }
+        .frame(height: 160)
         .padding(.horizontal)
+        .background(Color("Background"))
     }
 
     @ViewBuilder
@@ -164,14 +175,16 @@ struct ContentView: View {
     // MARK: - body
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            VStack {
-                ZStack(alignment: .bottomTrailing) {
-                    pictureSection.ignoresSafeArea()
-                    createActionButtonSection().offset(x: -20, y: 30)
-                }
+        ZStack {
+            VStack(spacing: 0) {
+                pictureSection
+                    .ignoresSafeArea()
+                Divider()
                 chooseStyleSection
             }
+            createActionButtonSection()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                .offset(x: -24, y: -130)
         }
         .sheet(item: $backgroundPicker) { pickerType in
             presentSheet(pickerType: pickerType)

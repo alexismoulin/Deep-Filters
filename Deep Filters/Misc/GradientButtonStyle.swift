@@ -12,6 +12,6 @@ struct GradientButtonStyle: ButtonStyle {
                     endPoint: .trailing
                 )
             )
-            .cornerRadius(15.0)
+            .cornerRadius(20)
     }
 }
