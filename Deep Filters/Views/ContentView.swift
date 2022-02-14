@@ -8,6 +8,10 @@ struct ContentView: View {
 
     let testMode: Bool = false
 
+    var textStyle: String {
+        StyleEnum.getAssociatedImageName(style: appViewModel.selectedstyle)
+    }
+
     // MARK: - Buttons
 
     var applyFilterButton: some View {
@@ -73,41 +77,36 @@ struct ContentView: View {
     // MARK: - Sections
 
     var pictureSection: some View {
-        GeometryReader { geo in
-            ZStack {
-                // Background
-                BackgroundEffect(color1: .primary, color2: .secondary)
-                Text(StyleEnum.getAssociatedImageName(style: appViewModel.selectedstyle))
-                    .font(.headline.weight(.heavy))
+        ZStack {
+            // Background
+            BackgroundEffect(color1: .primary, color2: .secondary)
+                .ignoresSafeArea()
+            // Image
+            if appViewModel.show == .noImage {
+                Text("First, select a picture")
                     .foregroundColor(.white)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                    .padding(.top, 44)
-                // Image
-                if appViewModel.show == .noImage {
-                    Text("First, select a picture")
-                        .foregroundColor(.white)
-                        .font(.headline)
-                } else if appViewModel.show == .regular {
-                    Image(uiImage: appViewModel.backgroundImage!)
-                        .resizable()
-                        .scaledToFit()
-                } else if appViewModel.show == .styled {
-                    Image(uiImage: appViewModel.styledBackgroundImage!)
-                        .resizable()
-                        .scaledToFit()
+                    .font(.headline)
+            } else if appViewModel.show == .regular {
+                Image(uiImage: appViewModel.backgroundImage!)
+                    .resizable()
+                    .scaledToFit()
+            } else if appViewModel.show == .styled {
+                Image(uiImage: appViewModel.styledBackgroundImage!)
+                    .resizable()
+                    .scaledToFit()
+            }
+            // Buttons
+            if appViewModel.show == .noImage {
+                HStack {
+                    if Camera.isAvailable || testMode {
+                        cameraButton.padding(horizontalSizeClass == .compact ? 20: 50)
+                    }
+                    Spacer()
+                    if PhotoLibrary.isAvailable || testMode {
+                        libraryButton.padding(horizontalSizeClass == .compact ? 20: 50)
+                    }
                 }
-                // Buttons
-                if appViewModel.show == .noImage {
-                    HStack {
-                        if Camera.isAvailable || testMode {
-                            cameraButton.padding(horizontalSizeClass == .compact ? 20: 50)
-                        }
-                        Spacer()
-                        if PhotoLibrary.isAvailable || testMode {
-                            libraryButton.padding(horizontalSizeClass == .compact ? 20: 50)
-                        }
-                    }.position(x: geo.size.width / 2, y: 100.0)
-                }
+                .frame(maxHeight: .infinity, alignment: .top)
             }
         }
     }
@@ -175,21 +174,43 @@ struct ContentView: View {
     // MARK: - body
 
     var body: some View {
-        ZStack {
-            VStack(spacing: 0) {
-                pictureSection
-                    .ignoresSafeArea()
-                Divider()
-                chooseStyleSection
+        NavigationView {
+            ZStack {
+                VStack(spacing: 0) {
+                    pictureSection
+                    Divider()
+                    chooseStyleSection
+                }
+                createActionButtonSection()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                    .offset(x: -24, y: -130)
             }
-            createActionButtonSection()
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                .offset(x: -24, y: -130)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Image(textStyle)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                        Text(textStyle)
+                            .font(.headline.bold())
+                    }.frame(maxWidth: .infinity)
+                }
+            }
+            .navigationTitle("Style: \(textStyle)")
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear(perform: setNavigationBar)
+            .sheet(item: $backgroundPicker) { pickerType in
+                presentSheet(pickerType: pickerType)
+            }
         }
-        .sheet(item: $backgroundPicker) { pickerType in
-            presentSheet(pickerType: pickerType)
-        }
+    }
 
+    func setNavigationBar() {
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
     }
 
 }
