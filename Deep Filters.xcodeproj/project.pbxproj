@@ -12,6 +12,10 @@
 		5E205583271B971100401807 /* StyleOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E205582271B971100401807 /* StyleOutput.swift */; };
 		5E205585271B97AF00401807 /* StyleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E205584271B97AF00401807 /* StyleModel.swift */; };
 		5E205587271B9D7B00401807 /* StyleModel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E205586271B9D7B00401807 /* StyleModel+Extension.swift */; };
+		5E22AC8427C037E100DC83C6 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E22AC8327C037E100DC83C6 /* Tab.swift */; };
+		5E22AC8627C0382C00DC83C6 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E22AC8527C0382C00DC83C6 /* TabBar.swift */; };
+		5E22AC8827C039D700DC83C6 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E22AC8727C039D700DC83C6 /* Modifiers.swift */; };
+		5E22AC8A27C0420100DC83C6 /* AngularButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E22AC8927C0420100DC83C6 /* AngularButton.swift */; };
 		5E4305B126EC05E000D6CD85 /* Deep_FiltersApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305B026EC05E000D6CD85 /* Deep_FiltersApp.swift */; };
 		5E4305B326EC05E000D6CD85 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4305B226EC05E000D6CD85 /* ContentView.swift */; };
 		5E4305B526EC05E100D6CD85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E4305B426EC05E100D6CD85 /* Assets.xcassets */; };
@@ -51,6 +55,10 @@
 		5E205582271B971100401807 /* StyleOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleOutput.swift; sourceTree = "<group>"; };
 		5E205584271B97AF00401807 /* StyleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleModel.swift; sourceTree = "<group>"; };
 		5E205586271B9D7B00401807 /* StyleModel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StyleModel+Extension.swift"; sourceTree = "<group>"; };
+		5E22AC8327C037E100DC83C6 /* Tab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		5E22AC8527C0382C00DC83C6 /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		5E22AC8727C039D700DC83C6 /* Modifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
+		5E22AC8927C0420100DC83C6 /* AngularButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AngularButton.swift; sourceTree = "<group>"; };
 		5E4305AD26EC05E000D6CD85 /* Deep Filters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Deep Filters.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E4305B026EC05E000D6CD85 /* Deep_FiltersApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deep_FiltersApp.swift; sourceTree = "<group>"; };
 		5E4305B226EC05E000D6CD85 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -160,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				5E4305D926EC077C00D6CD85 /* AppViewModel.swift */,
+				5E22AC8327C037E100DC83C6 /* Tab.swift */,
 				5E4305DF26EC080300D6CD85 /* Enums.swift */,
 				5E4305C426EC06BC00D6CD85 /* ML Models */,
 			);
@@ -192,9 +201,11 @@
 		5E4305E826EC08E900D6CD85 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5E22AC8527C0382C00DC83C6 /* TabBar.swift */,
 				5E4305E926EC090600D6CD85 /* BackgroundEffectView.swift */,
 				5E4305EB26EC093B00D6CD85 /* AnimatedActionButton.swift */,
 				5E4305ED26EC095F00D6CD85 /* AnimatedRoundedButton.swift */,
+				5E22AC8927C0420100DC83C6 /* AngularButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -202,6 +213,7 @@
 		5E4305EF26EC098B00D6CD85 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				5E22AC8727C039D700DC83C6 /* Modifiers.swift */,
 				5E4305F626EC0A3400D6CD85 /* GradientButtonStyle.swift */,
 				5E5C92B727B06E3C00666C4C /* VisualEffectBlur.swift */,
 			);
@@ -329,8 +341,10 @@
 				5EA1DF31271C584D00416374 /* MatrixSize.swift in Sources */,
 				5E205581271B96BB00401807 /* StyleInput.swift in Sources */,
 				5E4305CC26EC072100D6CD85 /* Style4.mlmodel in Sources */,
+				5E22AC8A27C0420100DC83C6 /* AngularButton.swift in Sources */,
 				5E4305F326EC09D900D6CD85 /* UIImage+Extension.swift in Sources */,
 				5E4305EC26EC093B00D6CD85 /* AnimatedActionButton.swift in Sources */,
+				5E22AC8827C039D700DC83C6 /* Modifiers.swift in Sources */,
 				5E4305F726EC0A3400D6CD85 /* GradientButtonStyle.swift in Sources */,
 				5E4305DE26EC07E200D6CD85 /* StyleEnum.swift in Sources */,
 				5E4305DA26EC077C00D6CD85 /* AppViewModel.swift in Sources */,
@@ -350,6 +364,8 @@
 				5E7BCD642722F7E600DC3D7F /* Style14.mlmodel in Sources */,
 				5E4305E226EC083900D6CD85 /* ShareSheet.swift in Sources */,
 				5E4305C826EC070800D6CD85 /* Style2.mlmodel in Sources */,
+				5E22AC8627C0382C00DC83C6 /* TabBar.swift in Sources */,
+				5E22AC8427C037E100DC83C6 /* Tab.swift in Sources */,
 				5E4305D226EC074100D6CD85 /* Style7.mlmodel in Sources */,
 				5E4305D026EC073600D6CD85 /* Style6.mlmodel in Sources */,
 				5E7BCD682722F80500DC3D7F /* Style13.mlmodel in Sources */,

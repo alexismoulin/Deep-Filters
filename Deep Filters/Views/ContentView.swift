@@ -1,11 +1,23 @@
 import SwiftUI
+import CoreImage
+import CoreImage.CIFilterBuiltins
 
 struct ContentView: View {
 
-    @State private var backgroundPicker: BackgroundPicker?
-    @StateObject var appViewModel = AppViewModel()
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @StateObject var appViewModel = AppViewModel()
 
+    @State private var backgroundPicker: BackgroundPicker?
+
+    @State private var image: Image?
+    @State private var filterIntensity: Double = 0.5
+    @State private var showingImagePicker: Bool = false
+    @State private var inputImage: UIImage?
+    @State private var currentFilter: CIFilter = CIFilter.sepiaTone()
+    @State private var showingFilterSheet: Bool = false
+    @State private var selectedTab: Tab = .style
+
+    let context = CIContext()
     let testMode: Bool = false
 
     var textStyle: String {
@@ -154,6 +166,35 @@ struct ContentView: View {
         .background(Color("Background"))
     }
 
+    var chooseFilterSection: some View {
+        VStack(spacing: 30) {
+            HStack {
+                Text("Intensity")
+                Slider(value: $filterIntensity)
+                    .onChange(of: filterIntensity) { _ in
+                        applyProcessing()
+                    }
+            }
+            Button {
+                showingFilterSheet = true
+            } label: {
+                AngularButton(title: "Choose a filter", icon: "")
+            }
+        }
+        .frame(height: 160)
+        .padding(.horizontal)
+        .background(Color("Background"))
+    }
+
+    @ViewBuilder
+    func chooseSection() -> some View {
+        if selectedTab == .style {
+            chooseStyleSection
+        } else {
+            chooseFilterSection
+        }
+    }
+
     @ViewBuilder
     func createActionButtonSection() -> some View {
         if appViewModel.backgroundImage != nil {
@@ -175,15 +216,19 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            ZStack {
-                VStack(spacing: 0) {
-                    pictureSection
-                    Divider()
-                    chooseStyleSection
+            ZStack(alignment: .bottom) {
+                ZStack {
+                    VStack(spacing: 0) {
+                        pictureSection
+                        Divider()
+                        chooseSection()
+                        Color("Background").frame(height: 50)
+                    }
+                    createActionButtonSection()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                        .offset(x: -24, y: -180)
                 }
-                createActionButtonSection()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                    .offset(x: -24, y: -130)
+                TabBar(selectedTab: $selectedTab)
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -204,6 +249,16 @@ struct ContentView: View {
             .sheet(item: $backgroundPicker) { pickerType in
                 presentSheet(pickerType: pickerType)
             }
+            .confirmationDialog("Select a filter", isPresented: $showingFilterSheet) {
+                Button("Crystallize") { setFilter(CIFilter.crystallize()) }
+                Button("Edges") { setFilter(CIFilter.edges()) }
+                Button("Gaussian Blur") { setFilter(CIFilter.gaussianBlur()) }
+                Button("Pixellate") { setFilter(CIFilter.pixellate()) }
+                Button("Sepia Tone") { setFilter(CIFilter.sepiaTone()) }
+                Button("Unsharp Mask") { setFilter(CIFilter.unsharpMask()) }
+                Button("Vignette") { setFilter(CIFilter.vignette()) }
+                Button("Cancel", role: .cancel) { }
+            }
         }
     }
 
@@ -211,6 +266,36 @@ struct ContentView: View {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+    }
+
+    func applyProcessing() {
+        let inputKeys = currentFilter.inputKeys
+        if inputKeys.contains(kCIInputIntensityKey) {
+            currentFilter.setValue(filterIntensity, forKey: kCIInputIntensityKey)
+        }
+        if inputKeys.contains(kCIInputRadiusKey) {
+            currentFilter.setValue(filterIntensity * 200, forKey: kCIInputRadiusKey)
+        }
+        if inputKeys.contains(kCIInputScaleKey) {
+            currentFilter.setValue(filterIntensity * 10, forKey: kCIInputScaleKey)
+        }
+        guard let outputImage = currentFilter.outputImage else { return }
+        if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+            let uiImage = UIImage(cgImage: cgimg)
+            appViewModel.styledBackgroundImage = uiImage
+        }
+    }
+
+    func loadImage() {
+        guard let inputImage = appViewModel.styledBackgroundImage else { return }
+        let beginImage = CIImage(image: inputImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        applyProcessing()
+    }
+
+    func setFilter(_ filter: CIFilter) {
+        currentFilter = filter
+        loadImage()
     }
 
 }
